@@ -1,0 +1,49 @@
+-- Table for `bethistories`
+CREATE TABLE bethistories (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  userId INT(11),
+  betAmount FLOAT,
+  betResult VARCHAR(255),
+  createdAt DATETIME NOT NULL,
+  updatedAt DATETIME NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users(id) -- Relation avec la table `users`
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Table for `referrals`
+CREATE TABLE referrals (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  userId INT(11),
+  referralCode VARCHAR(255),
+  referredUserId INT(11),
+  referralDate DATETIME DEFAULT NULL,
+  createdAt DATETIME NOT NULL,
+  updatedAt DATETIME NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users(id), -- Relation avec la table `users`
+  FOREIGN KEY (referredUserId) REFERENCES users(id) -- Relation avec la table `users`
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Table for `roles`
+CREATE TABLE roles (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) DEFAULT NULL,
+  description VARCHAR(255) DEFAULT NULL,
+  createdAt DATETIME NOT NULL,
+  updatedAt DATETIME NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Table for `sequelizemeta`
+CREATE TABLE sequelizemeta (
+  name VARCHAR(255) NOT NULL PRIMARY KEY
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Table for `users`
+CREATE TABLE users (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) DEFAULT NULL UNIQUE, -- Ensuring email is unique directly in table definition
+  password VARCHAR(255) DEFAULT NULL,
+  role VARCHAR(255) DEFAULT NULL,
+  balance FLOAT DEFAULT NULL,
+  referralCode VARCHAR(255) DEFAULT NULL,
+  createdAt DATETIME NOT NULL,
+  updatedAt DATETIME NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
